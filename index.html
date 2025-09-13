@@ -1,472 +1,284 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Digital Shiksha — Demo UI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#f6f9ff;
-      --card:#ffffff;
-      --muted:#6b7280;
-      --accent-student:#28a745;
-      --accent-teacher:#1e88e5;
-      --accent-quiz:#ffb020;
-      --accent-att:#8b5cf6;
-      --accent-report:#ef4444;
-      --glass: rgba(255,255,255,0.7);
-      --shadow: 0 8px 24px rgba(19,24,46,0.08);
-      --radius: 14px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
-      background: linear-gradient(180deg,#eef6ff 0%,var(--bg) 100%);
-      color:#0f172a;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      padding:20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Siksha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
 
-    /* App container */
-    .app {
-      max-width:1000px;
-      margin:10px auto;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:18px;
-    }
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
 
-    /* header */
-    .header {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      background:linear-gradient(90deg, rgba(34,197,94,0.08), rgba(30,136,229,0.06));
-      padding:14px;
-      border-radius:12px;
-      box-shadow:var(--shadow);
-    }
-    .brand {
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .logo {
-      width:56px;height:56px;border-radius:12px;
-      display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--accent-student),var(--accent-teacher));
-      color:white;font-weight:700;font-size:20px;
-      box-shadow:0 6px 18px rgba(30,64,175,0.12);
-    }
-    .app-title { font-weight:700; font-size:16px; }
-    .app-sub { font-size:12px; color:var(--muted) }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-    .controls { display:flex; gap:8px; align-items:center; }
-    .lang-toggle {
-      background:var(--card); padding:6px 10px;border-radius:999px; font-weight:600; font-size:13px;
-      box-shadow:var(--shadow); cursor:pointer;
-    }
-    .role-switch { background:transparent; padding:6px 10px; border-radius:8px; cursor:pointer; color:var(--muted); }
+        /* Header */
+        header {
+            background: #3f51b5;
+            color: white;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    /* Main card */
-    .main {
-      background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px;
-      display:grid; gap:14px;
-    }
+        header h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
 
-    /* Navigation row (student mobile style) */
-    .nav-grid { display:flex; gap:12px; align-items:center; justify-content:space-between; }
-    .big-btn {
-      flex:1; min-height:84px; border-radius:12px; display:flex; flex-direction:column; gap:8px;
-      justify-content:center; align-items:flex-start; padding:14px; color:white; font-weight:600; cursor:pointer;
-      box-shadow:0 6px 18px rgba(2,6,23,0.06);
-    }
-    .big-btn .title { font-size:16px; }
-    .big-btn .sub { font-size:12px; opacity:0.92 }
+        nav a {
+            margin-left: 25px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
 
-    .btn-student { background: linear-gradient(135deg,var(--accent-student), #1aa05a); }
-    .btn-teacher { background: linear-gradient(135deg,var(--accent-teacher), #4aa3ff); }
+        nav a:hover {
+            color: #ffeb3b;
+        }
 
-    /* content area (panes) */
-    .pane { display:none; animation:fade .18s ease both; }
-    .pane.active { display:block; }
+        /* Hero Section */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 80px 50px;
+            background: linear-gradient(to right, #3f51b5, #5c6bc0);
+            color: white;
+        }
 
-    @keyframes fade { from {opacity:0; transform:translateY(6px)} to {opacity:1; transform:none} }
+        .hero-text {
+            max-width: 50%;
+        }
 
-    /* Student dashboard layout */
-    .tiles { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
-    .tile {
-      background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.9));
-      padding:12px; border-radius:12px; box-shadow:var(--shadow); display:flex; gap:12px; align-items:center;
-    }
-    .tile .ic { width:48px;height:48px;border-radius:10px; display:grid;place-items:center;color:white;font-weight:700 }
-    .tile h4{ margin:0; font-size:15px }
-    .tile p{ margin:0; color:var(--muted); font-size:13px }
+        .hero-text h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
 
-    .lessons-list { display:flex; flex-direction:column; gap:10px; margin-top:6px; }
-    .lesson-card { background:var(--card); padding:12px;border-radius:10px; display:flex; gap:12px; align-items:center; box-shadow:0 6px 18px rgba(2,6,23,0.04) }
-    .lesson-thumb { width:76px;height:54px;border-radius:8px; background:linear-gradient(135deg,#fff, #f1f5f9); display:grid; place-items:center; font-weight:700; color:var(--muted) }
-    .lesson-body h5{ margin:0; font-size:15px }
-    .lesson-body p{ margin:4px 0 0 0; font-size:13px; color:var(--muted) }
+        .hero-text p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
 
-    /* Quiz UI */
-    .quiz-card { background:var(--card); padding:16px;border-radius:12px; box-shadow:var(--shadow) }
-    .question { font-weight:600; margin-bottom:12px }
-    .options { display:grid; gap:10px }
-    .opt-btn {
-      background:linear-gradient(180deg,#fff,#fbfbff); border:1px solid #eef2ff; padding:12px;border-radius:10px; cursor:pointer;
-      text-align:left; font-weight:500;
-    }
-    .opt-btn.selected { border-color:rgba(34,197,94,0.15); box-shadow:0 8px 20px rgba(34,197,94,0.08) }
+        .hero-text button {
+            padding: 15px 30px;
+            background: #ffeb3b;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-    /* Attendance */
-    .attendance { display:flex; gap:12px; flex-wrap:wrap }
-    .student-pill { padding:10px 12px; border-radius:999px; background:linear-gradient(180deg,#fff,#fbfbff); box-shadow:0 6px 18px rgba(2,6,23,0.04); display:flex; gap:10px; align-items:center; cursor:pointer }
-    .student-pill.present { border-left:6px solid var(--accent-att) }
+        .hero-text button:hover {
+            background: #fdd835;
+        }
 
-    /* Reports */
-    .report-summary { display:flex; gap:12px; align-items:center; flex-wrap:wrap }
-    .progress {
-      width:160px; height:12px; background:#f1f5f9; border-radius:999px; overflow:hidden;
-    }
-    .progress > i { display:block; height:100%; background:linear-gradient(90deg,var(--accent-quiz),var(--accent-student)); }
+        .hero img {
+            max-width: 45%;
+            border-radius: 15px;
+        }
 
-    /* Teacher layout */
-    .teacher-wrap { display:grid; grid-template-columns: 260px 1fr; gap:14px; align-items:start }
-    .sidebar { background:var(--card); padding:12px; border-radius:12px; box-shadow:var(--shadow); height:100% }
-    .sidebar h4{ margin:0 0 10px 0 }
-    .sidebar .nav { display:flex; flex-direction:column; gap:8px }
-    .side-link { padding:8px 10px; border-radius:8px; cursor:pointer; color:var(--muted); font-weight:600 }
-    .side-link.active { background:linear-gradient(90deg,#eef2ff,#fbfeff); color:var(--accent-teacher) }
+        /* Courses Section */
+        .courses {
+            padding: 70px 50px;
+            text-align: center;
+        }
 
-    /* responsive */
-    @media(min-width:880px){
-      .app{ padding:26px }
-      .nav-grid { gap:18px }
-      .tiles { grid-template-columns:repeat(4,1fr) }
-    }
-    @media(max-width:880px){
-      .teacher-wrap { grid-template-columns: 1fr }
-      .sidebar { order:2 }
-    }
+        .courses h2 {
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
 
-    /* tiny helpers */
-    .muted{ color:var(--muted) }
-    .small{ font-size:13px }
-    .right { margin-left:auto }
-    .chip { padding:6px 10px; border-radius:999px; background:#f8fafc; font-weight:600; color:var(--muted) }
-    footer{ text-align:center; color:var(--muted); font-size:13px; margin-top:8px }
-  </style>
+        .course-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background: #3f51b5;
+            color: white;
+            padding: 70px 50px;
+            text-align: center;
+        }
+
+        .testimonials h2 {
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+
+        .testimonial-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: white;
+            color: #333;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-card p {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card h4 {
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c387e;
+            color: white;
+            padding: 30px 50px;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #ffeb3b;
+            margin: 0 10px;
+        }
+
+        /* Responsive */
+        @media(max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text, .hero img {
+                max-width: 100%;
+            }
+
+            .hero img {
+                margin-top: 30px;
+            }
+        }
+
+    </style>
 </head>
 <body>
-  <div class="app" role="application" aria-label="Digital Shiksha demo UI">
-    <header class="header" role="banner">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">DS</div>
-        <div>
-          <div class="app-title">Digital Shiksha</div>
-          <div class="app-sub">Simple digital learning for rural schools</div>
-        </div>
-      </div>
 
-      <div class="controls" role="region" aria-label="Header controls">
-        <div id="langToggle" class="lang-toggle" tabindex="0" title="Toggle language">English ▾</div>
-        <button class="role-switch" id="openHome" aria-pressed="false">Home</button>
-      </div>
+    <!-- Header -->
+    <header>
+        <h1>Digital Siksha</h1>
+        <nav>
+            <a href="#courses">Courses</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#contact">Contact</a>
+        </nav>
     </header>
 
-    <main class="main" role="main">
-      <!-- Quick entry -->
-      <div class="nav-grid" aria-hidden="false">
-        <div class="big-btn btn-student" data-open="student" role="button" tabindex="0" aria-label="Open student section">
-          <div class="title">Student</div>
-          <div class="sub">Lessons • Quizzes • Reports</div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h2>Learn Smarter, Grow Faster</h2>
+            <p>Join Digital Siksha and access high-quality online courses for students and teachers, inspired by the best education platforms.</p>
+            <button>Get Started</button>
         </div>
-        <div class="big-btn btn-teacher" data-open="teacher" role="button" tabindex="0" aria-label="Open teacher section">
-          <div class="title">Teacher</div>
-          <div class="sub">Manage students • Attendance</div>
-        </div>
-      </div>
+        <img src="https://images.unsplash.com/photo-1581092580493-7d73d0dc3ff1?auto=format&fit=crop&w=800&q=80" alt="Education Illustration">
+    </section>
 
-      <!-- Home pane -->
-      <section id="home" class="pane active" aria-labelledby="homeTitle">
-        <h2 id="homeTitle" style="margin:0 0 6px 0">Welcome to Digital Shiksha</h2>
-        <p class="muted small">Designed for low-end devices, offline-first lessons, and simple teacher tools.</p>
-
-        <div style="display:flex; gap:12px; margin-top:12px; align-items:center; flex-wrap:wrap">
-          <div class="chip">Offline-first</div>
-          <div class="chip">Local language support</div>
-          <div class="chip">Easy quizzes</div>
-        </div>
-
-        <!-- sample feature tiles -->
-        <div style="margin-top:12px" class="tiles" aria-hidden="false">
-          <div class="tile" style="border-left:6px solid var(--accent-student)">
-            <div class="ic" style="background:linear-gradient(90deg,var(--accent-student), #1fb25f)">📚</div>
-            <div>
-              <h4>Lessons</h4>
-              <p>Interactive lessons with audio & images in local language.</p>
+    <!-- Courses Section -->
+    <section class="courses" id="courses">
+        <h2>Our Courses</h2>
+        <div class="course-cards">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1601758123927-2f6b2f5f87a8?auto=format&fit=crop&w=800&q=80" alt="Course 1">
+                <h3>Mathematics</h3>
+                <p>Interactive lessons for all grades to strengthen your math concepts.</p>
             </div>
-          </div>
-
-          <div class="tile" style="border-left:6px solid var(--accent-quiz)">
-            <div class="ic" style="background:linear-gradient(90deg,var(--accent-quiz), #ff9a00)">📝</div>
-            <div>
-              <h4>Quizzes</h4>
-              <p>Short MCQs after each lesson for instant feedback.</p>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1596495577886-d920f9d6dc14?auto=format&fit=crop&w=800&q=80" alt="Course 2">
+                <h3>Science</h3>
+                <p>Engaging science experiments and theory for students of all levels.</p>
             </div>
-          </div>
-
-          <div class="tile" style="border-left:6px solid var(--accent-att)">
-            <div class="ic" style="background:linear-gradient(90deg,var(--accent-att), #7c4dff)">📅</div>
-            <div>
-              <h4>Attendance</h4>
-              <p>Easy attendance marking for teachers & students.</p>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=800&q=80" alt="Course 3">
+                <h3>Programming</h3>
+                <p>Learn coding with fun projects and hands-on practice from basics to advanced.</p>
             </div>
-          </div>
-
-          <div class="tile" style="border-left:6px solid var(--accent-report)">
-            <div class="ic" style="background:linear-gradient(90deg,var(--accent-report), #f87171)">📊</div>
-            <div>
-              <h4>Reports</h4>
-              <p>Simple progress charts & downloadable reports.</p>
-            </div>
-          </div>
         </div>
-      </section>
+    </section>
 
-      <!-- Student pane -->
-      <section id="student" class="pane" aria-labelledby="studentTitle">
-        <h2 id="studentTitle" style="margin:0 0 8px 0">Student Dashboard</h2>
-        <p class="muted small">Hello, <strong>Ravi</strong> — pick a lesson or continue a quiz.</p>
-
-        <div style="display:flex; gap:12px; margin-top:12px; align-items:flex-start; flex-wrap:wrap">
-          <div style="flex:1; min-width:260px">
-            <div class="tiles">
-              <div class="tile">
-                <div class="ic" style="background:linear-gradient(90deg,var(--accent-student), #24c06b)">📚</div>
-                <div>
-                  <h4>My Lessons</h4>
-                  <p>2 downloaded • 1 new</p>
-                </div>
-              </div>
-              <div class="tile">
-                <div class="ic" style="background:linear-gradient(90deg,var(--accent-quiz), #ff9a00)">📝</div>
-                <div>
-                  <h4>My Quizzes</h4>
-                  <p>1 completed • Avg 78%</p>
-                </div>
-              </div>
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <h2>What Students Say</h2>
+        <div class="testimonial-cards">
+            <div class="testimonial-card">
+                <p>"Digital Siksha helped me understand complex concepts easily. Highly recommend!"</p>
+                <h4>- Anjali, Grade 10</h4>
             </div>
-
-            <div style="margin-top:12px">
-              <h3 style="margin:0 0 6px 0">Available Lessons</h3>
-              <div class="lessons-list">
-                <div class="lesson-card" tabindex="0">
-                  <div class="lesson-thumb">A+</div>
-                  <div class="lesson-body">
-                    <h5>What is a Computer?</h5>
-                    <p class="small muted">Audio + Image • English / Punjabi</p>
-                  </div>
-                </div>
-
-                <div class="lesson-card" tabindex="0">
-                  <div class="lesson-thumb">123</div>
-                  <div class="lesson-body">
-                    <h5>Math Tables (2–5)</h5>
-                    <p class="small muted">Interactive • Practice mode</p>
-                  </div>
-                </div>
-              </div>
+            <div class="testimonial-card">
+                <p>"The interactive lessons made learning fun and effective."</p>
+                <h4>- Rohit, Grade 12</h4>
             </div>
-          </div>
-
-          <aside style="width:260px">
-            <div class="card" style="background:var(--card); padding:14px; border-radius:12px; box-shadow:var(--shadow)">
-              <h4 style="margin:0 0 8px 0">Quick Progress</h4>
-              <div class="report-summary">
-                <div>
-                  <div class="small muted">Lessons</div>
-                  <div style="font-weight:700; font-size:20px">2 / 5</div>
-                </div>
-                <div style="margin-left:auto;">
-                  <div class="small muted">Avg Quiz</div>
-                  <div style="font-weight:700; font-size:20px">78%</div>
-                </div>
-              </div>
-              <div style="margin-top:12px">
-                <div class="small muted">Completion</div>
-                <div class="progress" aria-hidden="true"><i style="width:62%"></i></div>
-              </div>
+            <div class="testimonial-card">
+                <p>"Great platform for teachers and students alike. Very intuitive!"</p>
+                <h4>- Meera, Educator</h4>
             </div>
-          </aside>
         </div>
-      </section>
+    </section>
 
-      <!-- Teacher pane -->
-      <section id="teacher" class="pane" aria-labelledby="teacherTitle">
-        <h2 id="teacherTitle" style="margin:0 0 8px 0">Teacher Dashboard</h2>
-        <div class="teacher-wrap">
-          <aside class="sidebar" aria-label="Teacher navigation">
-            <h4>Navigation</h4>
-            <nav class="nav" role="navigation" aria-label="Teacher links">
-              <div class="side-link active" data-teach="students">Students</div>
-              <div class="side-link" data-teach="attendance">Attendance</div>
-              <div class="side-link" data-teach="quizzes">Quizzes</div>
-              <div class="side-link" data-teach="reports">Reports</div>
-            </nav>
-            <div style="margin-top:12px" class="small muted">School: Govt. Primary Nabha</div>
-          </aside>
-
-          <div style="background:var(--card); padding:14px; border-radius:12px; box-shadow:var(--shadow)">
-            <h3 style="margin:0 0 8px 0">Students</h3>
-            <p class="muted small">Total 24 students • today attendance 21 present</p>
-
-            <div style="margin-top:12px; overflow:auto">
-              <table style="width:100%; border-collapse:collapse; font-size:14px">
-                <thead style="text-align:left; color:var(--muted)">
-                  <tr><th style="padding:8px 6px">Name</th><th style="padding:8px 6px">Roll</th><th style="padding:8px 6px">Attendance</th><th style="padding:8px 6px">Avg Quiz</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td style="padding:10px 6px">Ravi</td><td style="padding:10px 6px">08</td><td style="padding:10px 6px">95%</td><td style="padding:10px 6px">78%</td></tr>
-                  <tr><td style="padding:10px 6px">Sunita</td><td style="padding:10px 6px">13</td><td style="padding:10px 6px">90%</td><td style="padding:10px 6px">81%</td></tr>
-                  <tr><td style="padding:10px 6px">Aman</td><td style="padding:10px 6px">04</td><td style="padding:10px 6px">88%</td><td style="padding:10px 6px">74%</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Quiz pane -->
-      <section id="quiz" class="pane" aria-labelledby="quizTitle">
-        <h2 id="quizTitle" style="margin:0 0 8px 0">Quiz</h2>
-        <div class="quiz-card" role="region" aria-label="Quiz area">
-          <div class="question">1) Who invented the computer? <span class="muted small">(select one)</span></div>
-          <div class="options" role="list">
-            <button class="opt-btn" data-opt="a" role="listitem">Charles Babbage</button>
-            <button class="opt-btn" data-opt="b" role="listitem">Thomas Edison</button>
-            <button class="opt-btn" data-opt="c" role="listitem">Isaac Newton</button>
-            <button class="opt-btn" data-opt="d" role="listitem">Albert Einstein</button>
-          </div>
-
-          <div style="display:flex; gap:8px; margin-top:12px">
-            <button id="submitQuiz" style="background:linear-gradient(90deg,var(--accent-quiz), #ff9a00); color:white; border:none; padding:10px 14px; border-radius:10px; cursor:pointer">Submit</button>
-            <div id="feedback" class="muted small" style="align-self:center"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Attendance pane -->
-      <section id="attendance" class="pane" aria-labelledby="attTitle">
-        <h2 id="attTitle" style="margin:0 0 8px 0">Attendance</h2>
-        <p class="muted small">Tap to toggle presence for today</p>
-
-        <div class="attendance" style="margin-top:12px" aria-live="polite">
-          <div class="student-pill present">Ravi <span style="margin-left:8px" class="muted small">• Present</span></div>
-          <div class="student-pill">Sunita <span style="margin-left:8px" class="muted small">• Absent</span></div>
-          <div class="student-pill present">Aman <span style="margin-left:8px" class="muted small">• Present</span></div>
-          <div class="student-pill">Kavita <span style="margin-left:8px" class="muted small">• Absent</span></div>
-        </div>
-      </section>
-
-      <!-- Report pane -->
-      <section id="report" class="pane" aria-labelledby="reportTitle">
-        <h2 id="reportTitle" style="margin:0 0 8px 0">Reports</h2>
-        <p class="muted small">Individual progress & class summary</p>
-
-        <div style="display:flex; gap:12px; margin-top:10px; flex-wrap:wrap">
-          <div style="background:var(--card); padding:12px; border-radius:12px; box-shadow:var(--shadow); min-width:220px">
-            <h4 style="margin:0">Ravi</h4>
-            <div class="small muted">Avg Quiz</div>
-            <div style="font-weight:700; font-size:20px; margin-top:6px">78%</div>
-            <div style="margin-top:8px" class="progress" aria-hidden="true"><i style="width:78%"></i></div>
-          </div>
-
-          <div style="background:var(--card); padding:12px; border-radius:12px; box-shadow:var(--shadow); min-width:220px">
-            <h4 style="margin:0">Class Summary</h4>
-            <div class="small muted">Present Today</div>
-            <div style="font-weight:700; font-size:20px; margin-top:6px">21 / 24</div>
-            <div style="margin-top:8px" class="progress" aria-hidden="true"><i style="width:88%"></i></div>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <footer>
-      Demo UI — tweak colors, texts & content as you like. Made for quick SIH MVP.
+    <!-- Footer -->
+    <footer id="contact">
+        <p>&copy; 2025 Digital Siksha. All Rights Reserved.</p>
+        <p>Follow us:
+            <a href="#">Facebook</a> |
+            <a href="#">Twitter</a> |
+            <a href="#">Instagram</a>
+        </p>
     </footer>
-  </div>
 
-  <script>
-    // Tiny interactivity (no frameworks). Navigation & simple quiz behavior.
-
-    // Open panes based on data-open attributes
-    document.querySelectorAll('[data-open]').forEach(btn=>{
-      btn.addEventListener('click', ()=> openPane(btn.getAttribute('data-open')));
-      btn.addEventListener('keydown', (e)=> { if(e.key==='Enter') openPane(btn.getAttribute('data-open')) });
-    });
-    document.getElementById('openHome').addEventListener('click', ()=> openPane('home'));
-
-    function openPane(id){
-      document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
-      const el = document.getElementById(id);
-      if(el) el.classList.add('active');
-      // mark header button
-      document.getElementById('openHome').setAttribute('aria-pressed', id==='home');
-      // scroll to top of main area
-      window.scrollTo({top:0, behavior:'smooth'});
-    }
-
-    // Teacher side nav
-    document.querySelectorAll('.side-link').forEach(link=>{
-      link.addEventListener('click', ()=> {
-        document.querySelectorAll('.side-link').forEach(l=>l.classList.remove('active'));
-        link.classList.add('active');
-      });
-    });
-
-    // Language toggle (just visual - you can plug translations later)
-    const langBtn = document.getElementById('langToggle');
-    let isEng = true;
-    langBtn.addEventListener('click', ()=> {
-      isEng = !isEng;
-      langBtn.textContent = isEng ? 'English ▾' : 'ਪੰਜਾਬੀ ▾';
-      langBtn.setAttribute('aria-pressed', !isEng);
-      // TODO: integrate real translations
-    });
-
-    // Quiz selection
-    document.querySelectorAll('.opt-btn').forEach(b=>{
-      b.addEventListener('click', ()=> {
-        document.querySelectorAll('.opt-btn').forEach(x=>x.classList.remove('selected'));
-        b.classList.add('selected');
-      });
-    });
-    document.getElementById('submitQuiz').addEventListener('click', ()=>{
-      const sel = document.querySelector('.opt-btn.selected');
-      const fb = document.getElementById('feedback');
-      if(!sel){ fb.textContent='Please select an option'; return; }
-      // Suppose correct is 'a'
-      if(sel.dataset.opt==='a'){
-        fb.innerHTML = '<span style="color:var(--accent-student); font-weight:700">Correct ✅</span>';
-      } else {
-        fb.innerHTML = '<span style="color:var(--accent-report); font-weight:700">Incorrect ✖</span>';
-      }
-    });
-
-    // Attendance toggle
-    document.querySelectorAll('.student-pill').forEach(p=> p.addEventListener('click', ()=>{
-      p.classList.toggle('present');
-      const txt = p.classList.contains('present') ? '• Present' : '• Absent';
-      p.querySelector('.muted.small') ? p.querySelector('.muted.small').textContent = txt : null;
-    }));
-  </script>
 </body>
 </html>
