@@ -10,14 +10,23 @@
     body{background:#f5f7fa;color:#333;}
 
     header{background:#3f51b5;color:white;padding:15px 50px;text-align:center;font-size:28px;font-weight:bold;}
+    nav a{margin-left:25px;font-weight:500;color:white;text-decoration:none;}
+    nav a:hover{color:#ffeb3b;}
 
-    /* LOGIN PAGE */
+    /* Hero Section */
+    .hero{display:flex;justify-content:space-between;align-items:center;padding:80px 50px;background:linear-gradient(to right,#3f51b5,#5c6bc0);color:white;flex-wrap:wrap;}
+    .hero-text{max-width:50%;}
+    .hero-text h2{font-size:48px;margin-bottom:20px;}
+    .hero-text p{font-size:18px;margin-bottom:30px;}
+    .hero-text button{padding:15px 30px;background:#ffeb3b;border:none;border-radius:5px;font-weight:bold;cursor:pointer;transition:0.3s;}
+    .hero-text button:hover{background:#fdd835;}
+    .hero img{max-width:45%;border-radius:15px;}
+
+    /* LOGIN + DASHBOARD SECTION */
     .login-page{display:flex;justify-content:center;align-items:flex-start;padding:50px 20px;gap:50px;flex-wrap:wrap;}
-
     .login-card{background:white;padding:40px 30px;border-radius:15px;box-shadow:0 8px 20px rgba(0,0,0,0.1);width:350px;transition:transform 0.3s;}
     .login-card:hover{transform:translateY(-5px);}
     .login-card h2{text-align:center;color:#3f51b5;margin-bottom:20px;}
-
     .tab-buttons{display:flex;margin-bottom:20px;border-radius:10px;overflow:hidden;border:1px solid #ccc;}
     .tab-buttons button{flex:1;padding:12px;font-weight:bold;border:none;cursor:pointer;background:#eee;transition:0.3s;}
     .tab-buttons button.active{background:#3f51b5;color:white;}
@@ -28,7 +37,6 @@
     .login-form button{width:100%;padding:12px;background:#3f51b5;color:white;border:none;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;transition:0.3s;}
     .login-form button:hover{background:#5c6bc0;}
 
-    /* STUDENT DASHBOARD */
     .dashboard{background:white;padding:30px;border-radius:15px;box-shadow:0 8px 20px rgba(0,0,0,0.1);width:600px;}
     .dashboard h3{color:#3f51b5;margin-bottom:20px;text-align:center;}
     .dashboard-section{margin-bottom:25px;}
@@ -36,7 +44,7 @@
     .dashboard-section table, th, td{border:1px solid #ccc;}
     .dashboard-section th, td{padding:10px;text-align:center;}
 
-    /* COURSES SECTION */
+    /* Courses Section */
     .courses{padding:70px 50px;text-align:center;}
     .courses h2{font-size:36px;margin-bottom:50px;}
     .course-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;}
@@ -48,13 +56,30 @@
     .card button{padding:10px 15px;background:#3f51b5;color:white;border:none;border-radius:5px;cursor:pointer;transition:0.3s;}
     .card button:hover{background:#5c6bc0;}
 
-    /* RESPONSIVE */
-    @media(max-width:1200px){.login-page{flex-direction:column;align-items:center;}.dashboard{width:90%;}}
+    /* Footer */
+    footer{background:#2c387e;color:white;padding:30px 50px;text-align:center;}
+    footer p{margin-bottom:10px;}
+    footer a{color:#ffeb3b;margin:0 10px;}
+
+    /* Responsive */
+    @media(max-width:1200px){.login-page{flex-direction:column;align-items:center;}.dashboard{width:90%;}.hero-text,.hero img{max-width:100%;text-align:center;}}
 </style>
 </head>
 <body>
 
-<header>Digital Siksha</header>
+<header>
+    Digital Siksha
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-text">
+        <h2>Learn Smarter, Grow Faster</h2>
+        <p>Access high-quality online courses for students and teachers with Digital Siksha.</p>
+        <button>Get Started</button>
+    </div>
+    <img src="https://images.unsplash.com/photo-1581092580493-7d73d0dc3ff1?auto=format&fit=crop&w=800&q=80" alt="Education Illustration">
+</section>
 
 <!-- LOGIN + DASHBOARD SECTION -->
 <div class="login-page">
@@ -143,6 +168,16 @@
         </div>
     </div>
 </section>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2025 Digital Siksha. All Rights Reserved.</p>
+    <p>Follow us:
+        <a href="#">Facebook</a> |
+        <a href="#">Twitter</a> |
+        <a href="#">Instagram</a>
+    </p>
+</footer>
 
 <script>
     // Toggle between Student and Teacher login forms
