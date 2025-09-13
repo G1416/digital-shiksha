@@ -168,6 +168,64 @@
         </div>
     </div>
 </section>
+   <!-- Student/Teacher Dashboard -->
+<div class="dashboard">
+    <h3>Dashboard</h3>
+
+    <!-- Attendance Section (Teacher only) -->
+    <div class="dashboard-section" id="attendanceSection">
+        <h4>Attendance</h4>
+        <table>
+            <tr><th>Student Name</th><th>Days Present</th><th>Days Absent</th></tr>
+            <tr><td>Bhavishya</td><td>22</td><td>3</td></tr>
+            <tr><td>Anjali</td><td>25</td><td>0</td></tr>
+            <tr><td>Rohit</td><td>20</td><td>5</td></tr>
+        </table>
+    </div>
+
+    <!-- Progress Section (Visible to all) -->
+    <div class="dashboard-section" id="progressSection">
+        <h4>Student Progress</h4>
+        <table>
+            <tr><th>Student Name</th><th>Mathematics</th><th>Science</th><th>Programming</th><th>Languages</th></tr>
+            <tr><td>Bhavishya</td><td>85%</td><td>90%</td><td>80%</td><td>88%</td></tr>
+            <tr><td>Anjali</td><td>92%</td><td>95%</td><td>85%</td><td>90%</td></tr>
+            <tr><td>Rohit</td><td>78%</td><td>80%</td><td>70%</td><td>85%</td></tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    const studentTab = document.getElementById('studentTab');
+    const teacherTab = document.getElementById('teacherTab');
+    const studentForm = document.getElementById('studentForm');
+    const teacherForm = document.getElementById('teacherForm');
+    const attendanceSection = document.getElementById('attendanceSection');
+
+    studentTab.addEventListener('click', () => {
+        studentTab.classList.add('active');
+        teacherTab.classList.remove('active');
+        studentForm.classList.add('active');
+        teacherForm.classList.remove('active');
+
+        // Hide attendance for students
+        attendanceSection.style.display = 'none';
+    });
+
+    teacherTab.addEventListener('click', () => {
+        teacherTab.classList.add('active');
+        studentTab.classList.remove('active');
+        teacherForm.classList.add('active');
+        studentForm.classList.remove('active');
+
+        // Show attendance for teachers
+        attendanceSection.style.display = 'block';
+    });
+
+    // Initial state: student login
+    attendanceSection.style.display = 'none';
+</script>
+
 
 <!-- Footer -->
 <footer>
@@ -203,3 +261,4 @@
 
 </body>
 </html>
+
